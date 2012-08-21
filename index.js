@@ -1,13 +1,3 @@
-function updateRequest(req, deviceType) {
-  Object.defineProperties(req, {
-    deviceType: { value: deviceType, writable: false },
-    isMobile: { value: deviceType === 'mobile', writable: false },
-    isTablet: { value: deviceType === 'tablet', writable: false },
-    isDesktop: { value: deviceType === 'desktop', writable: false },
-    isTV: { value: deviceType === 'tv', writable: false }
-  });
-}
-
 module.exports = function(opts) {
   opts || (opts = {});
   var useSession = opts.useSession !== false;
@@ -103,5 +93,15 @@ var detectDevice = module.exports.detect = function(userAgent) {
     }
   }
   return deviceType;
+};
+
+var updateRequest = module.exports.updateRequest = function(req, deviceType) {
+  Object.defineProperties(req, {
+    deviceType: { value: deviceType, writable: false },
+    isMobile: { value: deviceType === 'mobile', writable: false },
+    isTablet: { value: deviceType === 'tablet', writable: false },
+    isDesktop: { value: deviceType === 'desktop', writable: false },
+    isTV: { value: deviceType === 'tv', writable: false }
+  });
 };
 
