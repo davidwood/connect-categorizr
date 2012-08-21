@@ -12,16 +12,18 @@ module.exports = function(opts) {
   opts || (opts = {});
   var useSession = opts.useSession !== false;
   return function categorizr(req, res, next) {
-    if (useSession && req.session && req.session.deviceType) {
-      updateRequest(req, req.session.deviceType);
-    } else if (req.headers && 'user-agent' in req.headers) {
-      var deviceType = detectDevice(req.headers['user-agent']);
-      if (deviceType) {
-        updateRequest(req, deviceType);
-        if (useSession && req.session) req.session.deviceType = deviceType;
+    if (!req.deviceType) {
+      if (useSession && req.session && req.session.deviceType) {
+        updateRequest(req, req.session.deviceType);
+      } else if (req.headers && 'user-agent' in req.headers) {
+        var deviceType = detectDevice(req.headers['user-agent']);
+        if (deviceType) {
+          updateRequest(req, deviceType);
+          if (useSession && req.session) req.session.deviceType = deviceType;
+        }
+      } else {
+        updateRequest(req, 'No User-Agent Provided');
       }
-    } else {
-      updateRequest(req, 'No User-Agent Provided');
     }
     next();
   };
