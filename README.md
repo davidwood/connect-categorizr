@@ -2,6 +2,8 @@
 
 Connect middleware that provides device detection, based on Brett Jankord's [Categorizr](http://www.brettjankord.com/2012/01/16/categorizr-a-modern-device-detection-script). 
 
+[![Build Status](https://secure.travis-ci.org/davidwood/connect-categorizr.png)](http://travis-ci.org/davidwood/connect-categorizr)
+
 ## Installation
 
 ```bash
