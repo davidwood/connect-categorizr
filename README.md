@@ -45,18 +45,3 @@ and then run the tests
 make test
 ```
 
-## Building
-
-To build `connect-categorizr` from the lastest Categorizr [source](https://github.com/bjankord/Categorizr) and [tests](http://brettjankord.com/categorizr/categorizr-results.php), first install the dependencies
-
-```bash
-npm install -d
-```
-
-and then build the project
-
-```bash
-make
-```
-
-The tests are large and take a while to download, so the build may take a few minutes.

@@ -72,8 +72,8 @@ var detectDevice = module.exports.detect = function(userAgent) {
     {
       deviceType = "desktop";
     } 
-    // Check if user agent is a Linux Desktop
-    else if ((/Linux/i.test(userAgent)) && (/X11/i.test(userAgent)))
+    // Check if user agent is a Linux/ChromeOS Desktop
+    else if ((/Linux|CrOS/i.test(userAgent)) && (/X11/i.test(userAgent)))
     {
       deviceType = "desktop";
     } 
