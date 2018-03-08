@@ -26,7 +26,7 @@ describe('Connect middleware', function() {
         next();
       }
     });
-    server = http.createServer(app).listen(8080); 
+    server = http.createServer(app).listen(8080);
   });
 
   after(function() {
@@ -37,34 +37,34 @@ describe('Connect middleware', function() {
     handler = null;
   });
 
-  it('should set the device type to "No User-Agent Provided" if the user agent header is undefined', function(done) {
+  it('should set the device type to "mobile" if the user agent header is undefined', function(done) {
     get(function(req, res) {
-      assert.equal(req.deviceType, 'No User-Agent Provided');
-      assert.ok(!req.isMobile);
-      assert.ok(!req.isTablet);
-      assert.ok(!req.isDesktop);
-      assert.ok(!req.isTV);
+      assert.strictEqual(req.deviceType, 'mobile');
+      assert.strictEqual(req.isMobile, true);
+      assert.strictEqual(req.isTablet, false);
+      assert.strictEqual(req.isDesktop, false);
+      assert.strictEqual(req.isTV, false);
       done();
     });
   });
 
   it('should create immutable properties on the request', function(done) {
     get(function(req, res) {
-      assert.equal(req.deviceType, 'No User-Agent Provided');
-      assert.ok(!req.isMobile);
-      assert.ok(!req.isTablet);
-      assert.ok(!req.isDesktop);
-      assert.ok(!req.isTV);
+      assert.strictEqual(req.deviceType, 'mobile');
+      assert.strictEqual(req.isMobile, true);
+      assert.strictEqual(req.isTablet, false);
+      assert.strictEqual(req.isDesktop, false);
+      assert.strictEqual(req.isTV, false);
       req.deviceType = 'foo';
       req.isMobile = true;
       req.isTablet = true;
       req.isDesktop = true;
       req.isTV = true;
-      assert.equal(req.deviceType, 'No User-Agent Provided');
-      assert.ok(!req.isMobile);
-      assert.ok(!req.isTablet);
-      assert.ok(!req.isDesktop);
-      assert.ok(!req.isTV);
+      assert.equal(req.deviceType, 'mobile');
+      assert.strictEqual(req.isMobile, true);
+      assert.strictEqual(req.isTablet, false);
+      assert.strictEqual(req.isDesktop, false);
+      assert.strictEqual(req.isTV, false);
       done();
     });
   });

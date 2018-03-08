@@ -1,11 +1,11 @@
 {
   "name": "connect-categorizr",
   "description": "Connect middleware for device detection based on Categorizr",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "author": "David Wood <bitprobe@gmail.com>",
   "repository": {
       "type": "git",
-      "url": "http://github.com/davidwood/connect-categorizr" 
+      "url": "http://github.com/davidwood/connect-categorizr"
   },
   "devDependencies": {
     "mocha": "*",

@@ -2,17 +2,19 @@ module.exports = function(opts) {
   opts || (opts = {});
   var useSession = opts.useSession !== false;
   return function categorizr(req, res, next) {
+    var deviceType;
     if (!req.deviceType) {
       if (useSession && req.session && req.session.deviceType) {
         updateRequest(req, req.session.deviceType);
-      } else if (req.headers && 'user-agent' in req.headers) {
-        var deviceType = detectDevice(req.headers['user-agent']);
-        if (deviceType) {
-          updateRequest(req, deviceType);
-          if (useSession && req.session) req.session.deviceType = deviceType;
-        }
       } else {
-        updateRequest(req, 'No User-Agent Provided');
+        if (req.headers && 'user-agent' in req.headers) {
+          deviceType = detectDevice(req.headers['user-agent']);
+        }
+        if (!deviceType) {
+          deviceType = 'mobile';
+        }
+        updateRequest(req, deviceType);
+        if (useSession && req.session) req.session.deviceType = deviceType;
       }
     }
     next();
@@ -31,7 +33,7 @@ var detectDevice = module.exports.detect = function(userAgent) {
     else if ((/Xbox|PLAYSTATION.3|Wii/i.test(userAgent)))
     {
       deviceType = "tv";
-    }  
+    }
     // Check if user agent is a Tablet
     else if((/iP(a|ro)d/i.test(userAgent)) || (/tablet/i.test(userAgent)) && (!/RX-34/i.test(userAgent)) || (/FOLIO/i.test(userAgent)))
     {
@@ -51,8 +53,8 @@ var detectDevice = module.exports.detect = function(userAgent) {
     else if ((/GT-P10|SC-01C|SHW-M180S|SGH-T849|SCH-I800|SHW-M180L|SPH-P100|SGH-I987|zt180|HTC(.Flyer|\_Flyer)|Sprint.ATP51|ViewPad7|pandigital(sprnova|nova)|Ideos.S7|Dell.Streak.7|Advent.Vega|A101IT|A70BHT|MID7015|Next2|nook/i.test(userAgent)) || (/MB511/i.test(userAgent)) && (/RUTEM/i.test(userAgent)))
     {
       deviceType = "tablet";
-    } 
-    // Check if user agent is unique Mobile User Agent	
+    }
+    // Check if user agent is unique Mobile User Agent
     else if ((/BOLT|Fennec|Iris|Maemo|Minimo|Mobi|mowser|NetFront|Novarra|Prism|RX-34|Skyfire|Tear|XV6875|XV6975|Google.Wireless.Transcoder/i.test(userAgent)))
     {
       deviceType = "mobile";
@@ -66,17 +68,17 @@ var detectDevice = module.exports.detect = function(userAgent) {
     else if ((/Windows.(NT|XP|ME|9)/.test(userAgent)) && (!/Phone/i.test(userAgent)) || (/Win(9|.9|NT)/i.test(userAgent)))
     {
       deviceType = "desktop";
-    }  
+    }
     // Check if agent is Mac Desktop
     else if ((/Macintosh|PowerPC/i.test(userAgent)) && (!/Silk/i.test(userAgent)))
     {
       deviceType = "desktop";
-    } 
+    }
     // Check if user agent is a Linux/ChromeOS Desktop
     else if ((/Linux|CrOS/i.test(userAgent)) && (/X11/i.test(userAgent)))
     {
       deviceType = "desktop";
-    } 
+    }
     // Check if user agent is a Solaris, SunOS, BSD Desktop
     else if ((/Solaris|SunOS|BSD/i.test(userAgent)))
     {
@@ -86,7 +88,7 @@ var detectDevice = module.exports.detect = function(userAgent) {
     else if ((/Bot|Crawler|Spider|Yahoo|ia_archiver|Covario-IDS|findlinks|DataparkSearch|larbin|Mediapartners-Google|NG-Search|Snappy|Teoma|Jeeves|TinEye/i.test(userAgent)) && (!/Mobile/i.test(userAgent)))
     {
       deviceType = "desktop";
-    }  
+    }
     // Otherwise assume it is a Mobile Device
     else {
       deviceType = "mobile";
